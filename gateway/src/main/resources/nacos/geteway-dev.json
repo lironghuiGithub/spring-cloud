@@ -1,0 +1,44 @@
+[
+  {
+    "id": "dict-service",
+    "uri": "lb://dict",
+    "order": 0,
+    "predicates": [
+      {
+        "args": {
+          "pattern": "/dict/**"
+        },
+        "name": "Path"
+      }
+    ],
+    "filters": [
+      {
+        "args": {
+          "parts": "1"
+        },
+        "name": "StripPrefix"
+      }
+    ]
+  },
+  {
+    "id": "upload-service",
+    "uri": "lb://upload",
+    "order": 0,
+    "predicates": [
+      {
+        "args": {
+          "pattern": "/upload/**"
+        },
+        "name": "Path"
+      }
+    ],
+    "filters": [
+      {
+        "args": {
+          "parts": "1"
+        },
+        "name": "StripPrefix"
+      }
+    ]
+  }
+]
