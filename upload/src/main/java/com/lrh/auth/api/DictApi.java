@@ -1,9 +1,9 @@
 package com.lrh.auth.api;
 
-import com.lrh.common.ErrorCode;
-import com.lrh.common.ResultVO;
-import com.lrh.common.util.ResultUtil;
 import com.lrh.auth.api.vo.SysConfig;
+import com.lrh.auth.common.ErrorCode;
+import com.lrh.common.Result;
+import com.lrh.common.ResultUtil;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(value = "dict", fallback = DictApi.DictApiFallback.class)
 public interface DictApi {
     @GetMapping("/sys/config/{id}")
-    ResultVO<SysConfig> selectSysConfig(@PathVariable("id") Integer id);
+    Result<SysConfig> selectSysConfig(@PathVariable("id") Integer id);
 
     class DictApiFallback implements DictApi {
         @Override
-        public ResultVO<SysConfig> selectSysConfig(Integer id) {
+        public Result<SysConfig> selectSysConfig(Integer id) {
             return ResultUtil.renderFail(ErrorCode.UNKNOWN_ERROR, "UNKNON_ERROR");
         }
     }

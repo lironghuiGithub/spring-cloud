@@ -1,6 +1,6 @@
 package com.lrh.auth.controller;
 
-import com.lrh.common.ResultVO;
+import com.lrh.common.Result;
 import com.lrh.auth.api.DictApi;
 import com.lrh.auth.api.vo.SysConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class SysConfigController {
     DictApi dictApi;
 
     @GetMapping("/sys/config/{id}")
-    public Mono<ResultVO<SysConfig>> selectSysConfig(@PathVariable Integer id) {
+    public Mono<Result<SysConfig>> selectSysConfig(@PathVariable Integer id) {
         return Mono.just(dictApi.selectSysConfig(id));
     }
 }

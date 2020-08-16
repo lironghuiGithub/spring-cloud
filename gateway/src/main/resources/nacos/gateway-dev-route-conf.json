@@ -40,5 +40,26 @@
         "name": "StripPrefix"
       }
     ]
+  },
+  {
+    "id": "auth-service",
+    "uri": "lb://auth",
+    "order": 0,
+    "predicates": [
+      {
+        "args": {
+          "pattern": "/auth/**"
+        },
+        "name": "Path"
+      }
+    ],
+    "filters": [
+      {
+        "args": {
+          "parts": "1"
+        },
+        "name": "StripPrefix"
+      }
+    ]
   }
 ]

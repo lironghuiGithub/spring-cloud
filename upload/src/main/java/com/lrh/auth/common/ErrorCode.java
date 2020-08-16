@@ -1,4 +1,4 @@
-package com.lrh.common;
+package com.lrh.auth.common;
 
 /**
  * @version 1.0
@@ -6,6 +6,8 @@ package com.lrh.common;
  * @date 2020/8/16
  */
 public interface ErrorCode {
-    //未知异常
+    /**
+     * 未知异常
+     */
     int UNKNOWN_ERROR = 1000;
 }

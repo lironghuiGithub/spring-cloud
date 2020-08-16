@@ -5,23 +5,23 @@ package com.lrh.common;
  * @auther lironghui
  * @date 2020/8/16
  */
-public class ResultVO<T> {
+public class Result<T> {
     private int code;
     private String msg;
     private T obj;
 
-    public ResultVO() {
+    public Result() {
     }
 
-    public ResultVO(int code) {
+    public Result(int code) {
         this(code, "");
     }
 
-    public ResultVO(int code, String msg) {
+    public Result(int code, String msg) {
         this(code, msg, null);
     }
 
-    public ResultVO(int code, String msg, T obj) {
+    public Result(int code, String msg, T obj) {
         this.code = code;
         this.msg = msg;
         this.obj = obj;

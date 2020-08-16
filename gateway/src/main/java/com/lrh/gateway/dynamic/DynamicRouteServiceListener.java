@@ -21,10 +21,9 @@ import com.alibaba.nacos.api.NacosFactory;
 import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.config.listener.Listener;
 import com.alibaba.nacos.api.exception.NacosException;
+import com.lrh.gateway.config.SystemProperties;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -41,42 +40,34 @@ import java.util.concurrent.Executor;
 @Order
 @Component
 @Slf4j
-public class DynamicRouteServiceListener{
-
-    @Value("${spring.cloud.nacos.server-addr}")
-    private String serverAddr;
-    @Value("${spring.application.name}")
-    private String applicationName;
-    @Value("${spring.cloud.nacos.config.group}")
-    private String group;
-    @Value("${spring.profiles.active}")
-    private String env;
-	@Autowired
-    private  DynamicRouteService dynamicRouteService;
-
+public class DynamicRouteServiceListener {
+    @Autowired
+    private SystemProperties systemProperties;
+    @Autowired
+    private DynamicRouteService dynamicRouteService;
     /**
      * 监听Nacos下发的动态路由配置
      */
     @PostConstruct
     private void dynamicRouteServiceListener() {
         try {
-            ConfigService configService = NacosFactory.createConfigService(serverAddr);
-            String dataId = applicationName + "-" + env;
-            configService.addListener(dataId, group, new Listener() {
+            ConfigService configService = NacosFactory.createConfigService(systemProperties.getDyanicRouteServerAddr());
+            configService.addListener(systemProperties.getDyanicRouteDataId(), systemProperties.getDyanicRouteGroup(), new Listener() {
                 @Override
                 public void receiveConfigInfo(String configInfo) {
                     if (configInfo != null) {
                         List<RouteDefinition> routeDefinitions = JSON.parseArray(configInfo, RouteDefinition.class);
-                        log.error("@@@@@@@@@@@@@@@@@@@@@@@@@route definition change "+JSON.toJSONString(routeDefinitions));
+                        log.error("@@@@@@@@@@@@@@@@@@@@@@@@@route definition change " + JSON.toJSONString(routeDefinitions));
                         dynamicRouteService.updateList(routeDefinitions);
                     }
                 }
+
                 @Override
                 public Executor getExecutor() {
                     return null;
                 }
             });
-            String configInfo = configService.getConfig(dataId, group, 5000);
+            String configInfo = configService.getConfig(systemProperties.getDyanicRouteDataId(), systemProperties.getDyanicRouteGroup(), 5000);
             if (configInfo != null) {
                 List<RouteDefinition> routeDefinitions = JSON.parseArray(configInfo, RouteDefinition.class);
                 dynamicRouteService.updateList(routeDefinitions);

@@ -1,7 +1,7 @@
 package com.lrh.dict.controller;
 
-import com.lrh.common.ResultVO;
-import com.lrh.common.util.ResultUtil;
+import com.lrh.common.Result;
+import com.lrh.common.ResultUtil;
 import com.lrh.dict.dao.SysConfigRepository;
 import com.lrh.dict.model.SysConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class SysConfigController {
     SysConfigRepository sysConfigRepository;
 
     @GetMapping("/sys/config/{id}")
-    public Mono<ResultVO<SysConfig>> selectSysConfig(@PathVariable Integer id) {
+    public Mono<Result<SysConfig>> selectSysConfig(@PathVariable Integer id) {
         return Mono.just(ResultUtil.renderSuccess(sysConfigRepository.findById(id).get()));
     }
 }
