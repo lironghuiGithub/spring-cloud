@@ -21,7 +21,7 @@ import com.alibaba.nacos.api.NacosFactory;
 import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.config.listener.Listener;
 import com.alibaba.nacos.api.exception.NacosException;
-import com.lrh.gateway.config.SystemProperties;
+import com.lrh.gateway.config.GatewayNacosProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.route.RouteDefinition;
@@ -42,7 +42,7 @@ import java.util.concurrent.Executor;
 @Slf4j
 public class DynamicRouteServiceListener {
     @Autowired
-    private SystemProperties systemProperties;
+    private GatewayNacosProperties systemProperties;
     @Autowired
     private DynamicRouteService dynamicRouteService;
     /**

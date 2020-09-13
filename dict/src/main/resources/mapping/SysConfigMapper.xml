@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lrh.dict.mapper.SysConfigMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.lrh.dict.model.SysConfig">
+        <id column="n_id" property="nId"/>
+        <result column="s_key" property="sKey"/>
+        <result column="s_value" property="sValue"/>
+        <result column="s_desc" property="sDesc"/>
+    </resultMap>
+
+    <sql id="Table_Name">
+        sys_config
+    </sql>
+
+    <sql id="Base_Column_List">
+        n_id AS nId,
+        s_key AS sKey,
+        s_value AS sValue,
+        s_desc AS sDesc
+    </sql>
+
+    <sql id="Base_Column_Condition">
+        WHERE 1=1
+        <if test="nId !=null">and n_id=#{nId} </if>
+        <if test="sKey !=null">and s_key=#{sKey} </if>
+        <if test="sValue !=null">and s_value=#{sValue} </if>
+        <if test="sDesc !=null">and s_desc=#{sDesc} </if>
+    </sql>
+
+    <insert id="insertSelective" parameterType="com.lrh.dict.model.SysConfig"  keyProperty="nId" useGeneratedKeys="true"  >
+        insert into
+        <include refid="Table_Name"/>
+        <trim prefix="(" suffixOverrides="," suffix=")">
+            <if test="nId !=null">n_id,</if>
+            <if test="sKey !=null">s_key,</if>
+            <if test="sValue !=null">s_value,</if>
+            <if test="sDesc !=null">s_desc,</if>
+        </trim>
+        values
+        <trim prefix="(" suffixOverrides="," suffix=")">
+            <if test="nId !=null">#{nId},</if>
+            <if test="sKey !=null">#{sKey},</if>
+            <if test="sValue !=null">#{sValue},</if>
+            <if test="sDesc !=null">#{sDesc},</if>
+        </trim>
+    </insert>
+
+    <insert id="batchInsertAllColumn" parameterType="java.util.List"  keyProperty="nId" useGeneratedKeys="true" >
+        insert into
+        <include refid="Table_Name"/>
+        <trim prefix="(" suffixOverrides="," suffix=")">
+            n_id,
+            s_key,
+            s_value,
+            s_desc,
+        </trim>
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+        <trim prefix="(" suffixOverrides="," suffix=")">
+            #{item.nId},
+            #{item.sKey},
+            #{item.sValue},
+            #{item.sDesc},
+        </trim>
+        </foreach>
+    </insert>
+
+    <update id="updateSelectiveById" parameterType="com.lrh.dict.model.SysConfig">
+        update
+        <include refid="Table_Name"/>
+        <trim prefix="set" suffixOverrides=",">
+            <if test="nId !=null">n_id=#{nId},</if>
+            <if test="sKey !=null">s_key=#{sKey},</if>
+            <if test="sValue !=null">s_value=#{sValue},</if>
+            <if test="sDesc !=null">s_desc=#{sDesc},</if>
+        </trim>
+        where
+        n_id=#{nId}
+    </update>
+
+    <update id="batchUpdateSelectiveById" parameterType="list">
+        <foreach collection="list" item="item" index="index" separator=";">
+        update
+        <include refid="Table_Name"/>
+        <trim prefix="set" suffixOverrides="," suffix="">
+            <if test="item.nId !=null">n_id=#{item.nId},</if>
+            <if test="item.sKey !=null">s_key=#{item.sKey},</if>
+            <if test="item.sValue !=null">s_value=#{item.sValue},</if>
+            <if test="item.sDesc !=null">s_desc=#{item.sDesc},</if>
+        </trim>
+        where
+        n_id=#{item.nId}
+        </foreach>
+    </update>
+
+    <delete id="deleteById">
+        delete from
+        <include refid="Table_Name"/>
+        where n_id= #{nId}
+    </delete>
+
+    <delete id="deleteByColumn">
+        delete from
+        <include refid="Table_Name"/>
+        <include refid="Base_Column_Condition"/>
+    </delete>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        select * from
+        <include refid="Table_Name"/>
+        where n_id= #{nId}
+    </select>
+
+    <select id="selectList" resultMap="BaseResultMap">
+        select * from
+        <include refid="Table_Name"/>
+        <include refid="Base_Column_Condition"/>
+    </select>
+    <!-- 数据库常规操作 end  -->
+    <!-- 数据库自定义 end  -->
+</mapper>

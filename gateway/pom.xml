@@ -6,21 +6,26 @@
     <parent>
         <groupId>com.lrh</groupId>
         <artifactId>spring-cloud</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
     <artifactId>gateway</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
-
+    <properties>
+        <gateway.version>2.2.4.RELEASE</gateway.version>
+    </properties>
     <dependencies>
+
         <dependency>
             <groupId>com.lrh</groupId>
-            <artifactId>common</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <artifactId>dependent</artifactId>
+            <version>1.0.0</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
+            <version>${gateway.version}</version>
         </dependency>
     </dependencies>
 </project>

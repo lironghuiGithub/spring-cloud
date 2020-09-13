@@ -1,5 +1,6 @@
 package com.lrh.gateway;
 
+import com.lrh.gateway.common.ErrorCode;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;

@@ -1,12 +1,18 @@
 package com.lrh.dict.config;
 
+import com.lrh.dict.common.Constants;
+import com.lrh.mybatis.core.datasource.DynamicDataSource;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @version 1.0
@@ -16,15 +22,7 @@ import javax.sql.DataSource;
 @Configuration
 @RefreshScope
 public class DataSourceConfig {
-
-//    spring.datasource.hikari.jdbc-url=jdbc:mysql://192.168.3.9:3306/lrh?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true&useSSL=false&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
-//    spring.datasource.hikari.username=root
-//    spring.datasource.hikari.password=root
-//    spring.datasource.hikari.minimum-idle=5
-//    spring.datasource.hikari.maximum-pool-size=100
-//    spring.datasource.hikari.connection-timeout=30000
-//    spring.datasource.hikari.idle-timeout=600000
-//    spring.datasource.hikari.max-lifetime=1800000
+    private static final String DS1 = "DS1";
     @Value("${spring.datasource.hikari.jdbc-url}")
     private String jdbcUrl;
     @Value("${spring.datasource.hikari.username}")
@@ -41,16 +39,13 @@ public class DataSourceConfig {
     private int idleTimeout;
     @Value("${spring.datasource.hikari.max-lifetime}")
     private int maxlifetime;
-//    @ConfigurationProperties(prefix = "spring.datasource.hikari")
-//    @Bean
-//    public DataSource dataSource() {
-//        return DataSourceBuilder.create().build();
-//    }
 
-    @Bean
+    @Bean(Constants.DS1)
     @RefreshScope
+    @ConfigurationProperties(prefix = "spring.datasource.hikari")
+    @Primary
     public DataSource dataSource() {
-        HikariDataSource dataSource=new HikariDataSource();
+        HikariDataSource dataSource = new HikariDataSource();
         dataSource.setJdbcUrl(jdbcUrl);
         dataSource.setUsername(username);
         dataSource.setPassword(password);
@@ -59,6 +54,16 @@ public class DataSourceConfig {
         dataSource.setConnectionTimeout(connectionTimeout);
         dataSource.setIdleTimeout(idleTimeout);
         dataSource.setMaxLifetime(maxlifetime);
+        return dataSource;
+    }
+
+    @Bean(name = "dynamicDataSource")
+    public DynamicDataSource dynamicDataSource() {
+        Map<Object, Object> targetDataSource = new HashMap<>();
+        targetDataSource.put(DS1, dataSource());
+        DynamicDataSource dataSource = new DynamicDataSource();
+        dataSource.setTargetDataSources(targetDataSource);
+        dataSource.setDefaultTargetDataSource(dataSource());
         return dataSource;
     }
 }

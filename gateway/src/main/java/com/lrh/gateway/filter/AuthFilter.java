@@ -1,10 +1,9 @@
 package com.lrh.gateway.filter;
 
 import com.alibaba.fastjson.JSON;
-import com.lrh.common.ResultUtil;
-import com.lrh.common.Result;
-import com.lrh.gateway.config.SystemProperties;
-import com.lrh.gateway.util.UrlUtil;
+import com.lrh.common.R;
+import com.lrh.gateway.config.GatewayNacosProperties;
+import com.lrh.gateway.util.AntPathUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,46 +30,48 @@ import java.nio.charset.StandardCharsets;
 @Data
 public class AuthFilter implements GlobalFilter, Ordered {
     @Autowired
-    private SystemProperties systemProperties;
+    private GatewayNacosProperties getwayNacosProperties;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        if (!getwayNacosProperties.isCheckLogin()) {
+            return chain.filter(exchange);
+        }
         String url;
-        if (systemProperties.isCheckLogin()) {
-            url = exchange.getRequest().getURI().getRawPath();
-            if (UrlUtil.matchAny(systemProperties.getExcludeAuthUrls(), url)) {
-                chain.filter(exchange);
-            }
-            Result loginResult = checkLogin();
-            if (loginResult != ResultUtil.SUCCESS) {
-                return response(exchange.getResponse(), loginResult);
-            }
-            if (systemProperties.isCheckAuth()) {
-                Result authResult = checkAuth();
-                if (authResult != ResultUtil.SUCCESS) {
-                    return response(exchange.getResponse(), authResult);
-                }
-            }
+        url = exchange.getRequest().getURI().getRawPath();
+        if (AntPathUtil.matchAny(getwayNacosProperties.getExcludeAuthUrls(), url)) {
+            chain.filter(exchange);
+        }
+
+        R loginR = checkLogin();
+        if (R.isNotSuccess(loginR)) {
+            return response(exchange.getResponse(), loginR);
+        }
+        if (!getwayNacosProperties.isCheckAuth()) {
+            return chain.filter(exchange);
+        }
+        R authR = checkAuth();
+        if (R.isNotSuccess(authR)) {
+            return response(exchange.getResponse(), loginR);
         }
         return chain.filter(exchange);
-
     }
 
     //TODO 验证登录
-    private Result checkLogin() {
-        return ResultUtil.renderSuccess();
+    private R checkLogin() {
+        return R.success();
     }
 
     //TODO 验证权限
-    private Result checkAuth() {
-        return ResultUtil.renderSuccess();
+    private R checkAuth() {
+        return R.success();
     }
 
-    private Mono<Void> response(ServerHttpResponse resp, Result resultVO) {
+    private Mono<Void> response(ServerHttpResponse resp, R result) {
         resp.setStatusCode(HttpStatus.OK);
         resp.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
-        String result = JSON.toJSONString(resultVO);
-        DataBuffer buffer = resp.bufferFactory().wrap(result.getBytes(StandardCharsets.UTF_8));
+        String content = JSON.toJSONString(result);
+        DataBuffer buffer = resp.bufferFactory().wrap(content.getBytes(StandardCharsets.UTF_8));
         return resp.writeWith(Flux.just(buffer));
     }
 
