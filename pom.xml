@@ -3,64 +3,57 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.5.RELEASE</version>
-        <relativePath/>
-    </parent>
+    <groupId>com.lrh</groupId>
+    <artifactId>spring-cloud</artifactId>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
     <modules>
         <module>dict</module>
         <module>gateway</module>
         <module>upload</module>
         <module>auth</module>
-        <module>dependent</module>
+        <module>dependence</module>
     </modules>
-    <groupId>com.lrh</groupId>
-    <artifactId>spring-cloud</artifactId>
-    <version>1.0.0</version>
     <name>spring-cloud</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <lombok.version>1.18.12</lombok.version>
+        <!-- spring 配置  -->
+        <springboot.version>2.3.4.RELEASE</springboot.version>
+        <springcloud.gateway.version>2.2.5.RELEASE</springcloud.gateway.version>
         <openfeign.version>2.2.4.RELEASE</openfeign.version>
-        <feign.okHttp.version>11.0</feign.okHttp.version>
+        <feign.httpClient.version>8.17.0</feign.httpClient.version>
+        <httpclient.version>4.5.9</httpclient.version>
+        <nacos.version>2.2.1.RELEASE</nacos.version>
+        <jackson.version>2.11.2</jackson.version>
+        <!-- jdbc 配置  -->
+        <lrh.mybatis.core.version>1.0.0.RELEASE</lrh.mybatis.core.version>
         <mysql.connection.version>8.0.21</mysql.connection.version>
         <hikari.version>3.1.0</hikari.version>
-        <nacos.version>2.2.1.RELEASE</nacos.version>
+        <!--工具类 配置  -->
         <common.lang.version>3.10</common.lang.version>
         <swagger.version>3.0.0</swagger.version>
-        <lrh.mybatis.core.version>1.0.0</lrh.mybatis.core.version>
     </properties>
 
     <dependencies>
-        <!--spring cloud webflux 通用-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webflux</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-logging</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <version>${springboot.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
+            <version>${springboot.version}</version>
         </dependency>
-
         <!--slf4j logj2-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
+            <version>${springboot.version}</version>
         </dependency>
 
         <!--alibaba-nacos-discovery-->
@@ -74,36 +67,36 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
             <version>${nacos.version}</version>
         </dependency>
-
-
         <!--工具类-->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>${common.lang.version}</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>io.springfox</groupId>-->
-<!--            <artifactId>springfox-swagger-ui</artifactId>-->
-<!--            <version>${swagger.version}</version>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>io.springfox</groupId>-->
-<!--            <artifactId>springfox-swagger2</artifactId>-->
-<!--            <version>${swagger.version}</version>-->
-<!--        </dependency>-->
 
         <dependency>
             <groupId>io.springfox</groupId>
-            <artifactId>springfox-spring-webflux</artifactId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
             <version>${swagger.version}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-boot-starter</artifactId>
-            <version>3.0.0</version>
+            <version>${swagger.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -114,18 +107,62 @@
 
     <dependencyManagement>
         <dependencies>
+            <!--spring cloud webflux 通用-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-webflux</artifactId>
+                <version>${springboot.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <!--spring cloud webflux 通用-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${springboot.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-gateway</artifactId>
+                <version>${springcloud.gateway.version}</version>
+            </dependency>
             <!--spring cloud feign-->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-openfeign</artifactId>
                 <version>${openfeign.version}</version>
             </dependency>
+            <!--            <dependency>-->
+            <!--                <groupId>io.github.openfeign</groupId>-->
+            <!--                <artifactId>feign-okhttp</artifactId>-->
+            <!--                <version>${feign.okHttp.version}</version>-->
+            <!--            </dependency>-->
             <dependency>
-                <groupId>io.github.openfeign</groupId>
-                <artifactId>feign-okhttp</artifactId>
-                <version>${feign.okHttp.version}</version>
+                <groupId>com.netflix.feign</groupId>
+                <artifactId>feign-httpclient</artifactId>
+                <version>${feign.httpClient.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient.version}</version>
             </dependency>
             <!--spring mybatis-->
+            <dependency>
+                <groupId>com.lrh</groupId>
+                <artifactId>mybatis-core</artifactId>
+                <version>${lrh.mybatis.core.version}</version>
+            </dependency>
             <!-- SPRING MYBATIS 一系列配置 不需要操作MYSQL 无需引用 -->
             <dependency>
                 <groupId>com.lrh</groupId>
@@ -144,4 +181,44 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.3.2.RELEASE</version>
+            </plugin>
+            <!--test 编译报错直接忽略-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <!--<testFailureIgnore>true</testFailureIgnore>-->
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+
+        </plugins>
+        <resources>
+            <!-- 如果不加，那么打包的时候mapper文件不会被加载进来 -->
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.ftl</include>
+                    <include>**/*.html</include>
+                    <include>**/*.json</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
 </project>

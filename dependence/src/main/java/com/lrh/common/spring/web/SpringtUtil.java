@@ -100,6 +100,9 @@ public class SpringtUtil implements ApplicationContextAware {
         if (locale == null) {
             locale = Locale.getDefault();
         }
+        if (messages==null){
+            messages=new Object[0];
+        }
         return context.getMessage(code, messages, locale);
     }
 

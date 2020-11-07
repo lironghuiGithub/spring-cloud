@@ -15,17 +15,26 @@
         <gateway.version>2.2.4.RELEASE</gateway.version>
     </properties>
     <dependencies>
-
         <dependency>
             <groupId>com.lrh</groupId>
-            <artifactId>dependent</artifactId>
+            <artifactId>dependence</artifactId>
             <version>1.0.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-web</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
-            <version>${gateway.version}</version>
         </dependency>
     </dependencies>
 </project>

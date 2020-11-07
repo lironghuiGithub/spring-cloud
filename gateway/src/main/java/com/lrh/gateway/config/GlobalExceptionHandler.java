@@ -14,11 +14,11 @@
  *  this software without specific prior written permission.
  *  Author: Chill 庄骞 (smallchill@163.com)
  */
-package com.lrh.common.spring.web.handler;
+package com.lrh.gateway.config;
 
 import com.lrh.common.spring.common.GlobalErrorCode;
-import com.lrh.common.spring.exception.ResultException;
 import com.lrh.common.spring.web.SpringtUtil;
+import com.lrh.common.spring.web.exception.ResultException;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
 import org.springframework.boot.autoconfigure.web.reactive.error.DefaultErrorWebExceptionHandler;

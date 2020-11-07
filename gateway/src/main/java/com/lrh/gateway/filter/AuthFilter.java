@@ -1,9 +1,9 @@
 package com.lrh.gateway.filter;
 
 import com.alibaba.fastjson.JSON;
-import com.lrh.common.R;
+import com.lrh.common.spring.R;
+import com.lrh.common.spring.util.AntPathUtil;
 import com.lrh.gateway.config.GatewayNacosProperties;
-import com.lrh.gateway.util.AntPathUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

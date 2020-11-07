@@ -37,13 +37,6 @@ import java.security.SecureRandom;
 public class AESUtil {
     private static final String KEY_ALGORITHM = "AES";
     private static final String DEFAULT_CIPHER_ALGORITHM = "AES/ECB/PKCS5Padding";//默认的加密算法
-    //自定义密码
-    private static final String ASSETS_DEV_PWD_FIELD = "xxxx";
-
-    public static String getAssetsDevPwdField() {
-        return ASSETS_DEV_PWD_FIELD;
-    }
-
     /**
      * AES 加密操作
      *

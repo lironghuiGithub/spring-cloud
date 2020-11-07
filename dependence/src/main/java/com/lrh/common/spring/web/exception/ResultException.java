@@ -1,4 +1,4 @@
-package com.lrh.common.spring.exception;
+package com.lrh.common.spring.web.exception;
 
 /**
  * @author lironghui
@@ -27,6 +27,7 @@ public class ResultException extends RuntimeException {
         super(cause);
         this.code = code;
     }
+
 
     public ResultException(Throwable cause) {
         super(cause);

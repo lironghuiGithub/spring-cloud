@@ -30,6 +30,10 @@ public class R<T> {
         return obj;
     }
 
+    public String getMsg() {
+        return msg;
+    }
+
     public static R success() {
         return SUCCESS;
     }

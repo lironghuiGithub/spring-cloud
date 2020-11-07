@@ -9,19 +9,20 @@
         <version>1.0.0</version>
     </parent>
     <artifactId>dict</artifactId>
-
     <dependencies>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.lrh</groupId>
-            <artifactId>dependent</artifactId>
+            <artifactId>dependence</artifactId>
             <version>1.0.0</version>
         </dependency>
         <!-- SPRING MYBATIS 一系列配置 不需要操作MYSQL 无需引用 -->
         <dependency>
             <groupId>com.lrh</groupId>
             <artifactId>mybatis-core</artifactId>
-            <version>1.0.0-RELEASE</version>
         </dependency>
         <dependency>
             <groupId>com.zaxxer</groupId>

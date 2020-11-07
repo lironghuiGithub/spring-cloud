@@ -1,5 +1,7 @@
 package com.lrh.common.spring.util;
 
+import org.springframework.util.Base64Utils;
+
 /**
  * @version 1.0
  * @auther lironghui
